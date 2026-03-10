@@ -213,7 +213,7 @@ export default function EventPage({
               kalmış 500'den fazla destekçimiz sayesinde hayalimize biraz daha
               yakınız.
             </HighlightHeading>
-            <EventTickets tickets={event.tickets} eventDate={event.date} />
+            <EventTickets tickets={event.tickets} />
           </>
         )}
 

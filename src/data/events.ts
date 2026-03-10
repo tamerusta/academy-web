@@ -6,7 +6,7 @@ const events: Event[] = [
     navigable: true,
     name: "Foundations of Web Development Certification Course",
     heroDescription:
-      "🚀 Foundations of Web Development Certification Course ile HTML, CSS, JavaScript ve React temellerini proje odaklı bir şekilde öğren. Tamamen ücretsiz, online ve sertifikalı bu bootcamp, modern web geliştirme yolculuğuna sağlam bir başlangıç yapman için tasarlandı.",
+      "Foundations of Web Development Certification Course ile HTML, CSS, JavaScript ve React temellerini proje odaklı bir şekilde öğren. Tamamen ücretsiz, online ve sertifikalı.",
     cardDescription:
       "📅 Tamamen online, kendi hızında ilerleyebileceğin bir öğrenme deneyimi. 💡 Topluluk desteği, mentor rehberliği ve proje tabanlı öğrenme yaklaşımı seni bekliyor. Kendi web yolculuğunu başlatmaya hazır mısın? 🌟 Şimdi kayıt ol ve geleceğini kodlamaya başla!",
     location: {
@@ -21,26 +21,27 @@ const events: Event[] = [
       {
         id: 1,
         name: "Serkan Alc",
-        designation: "Bootcamp Lead & Organizer",
+        designation: "Organizer",
         image: "/images/organizers/serkan-alc.webp",
       },
       {
         id: 2,
         name: "Mutlu Özkurt",
-        designation: "Co-Organizer",
-        image: "/images/organizers/furkan-unsalan.webp",
+        designation: "Organizer",
+        image: "/images/organizers/mutlu-ozkurt.webp",
       },
       {
         id: 3,
         name: "Esra Kelleci",
-        designation: "Lead Instructor",
+        designation: "Organizer ",
         image: "/images/organizers/esra-kelleci.webp",
       },
     ],
     speakers: [
       {
         fullName: "Esra Kelleci",
-        title: "JavaScript Instructor",
+        title: " Frontend Developer ",
+        company: "akatis",
       },
       {
         fullName: "İsmail Şimşek",
@@ -49,27 +50,33 @@ const events: Event[] = [
       },
       {
         fullName: "Zafer Ayan",
-        title: "React Instructor",
+        title: "Enterprise Frontend Architect",
+        company: "yapikredi",
       },
       {
         fullName: "Hüseyin Gülcü",
-        title: "Advanced React Instructor",
+        title: "Frontend Developer",
+        company: "sanstech",
       },
       {
         fullName: "Tekin Ağgül",
-        title: "Next.js Instructor",
+        title: "Frontend Architect",
+        company: "vodafone",
       },
       {
         fullName: "Melis Dinçol",
-        title: "Framework Specialist",
+        title: "UX Designer",
+        company: "microsoft",
       },
       {
         fullName: "Feyza Demirel",
-        title: "Next.js Alternative Session",
+        title: "Solutions Architect",
+        company: "aws",
       },
       {
         fullName: "Serkan Alc",
-        title: "Bootcamp Lead",
+        title: "Community Lead",
+        company: "multigroup",
       },
       {
         fullName: "Halil İbrahim Çakıroğlu",
@@ -78,10 +85,12 @@ const events: Event[] = [
       {
         fullName: "Zeynep Alkoç",
         title: "Front-End Developer",
+        company: "hd",
       },
       {
         fullName: "Furkan Portakal",
         title: "Sr. Frontend Developer",
+        company: "sanstech",
       },
     ],
     sessions: [
@@ -90,7 +99,7 @@ const events: Event[] = [
         topic: "Keynote - Bootcamp Opening",
         startTime: "20.30",
         endTime: "22.30",
-        speakerName: "Serkan Alc, Mutlu Özkurt, Esra Kelleci",
+        speakerName: "Serkan Alc,",
       },
       {
         room: "Ana Salon",
@@ -240,7 +249,32 @@ const events: Event[] = [
         speakerName: "Furkan Portakal",
       },
     ],
-    sponsors: [],
+    sponsors: [
+      {
+        tier: "",
+        sponsorSlug: "grafana",
+      },
+      {
+        tier: "",
+        sponsorSlug: "vodafone",
+      },
+      {
+        tier: "",
+        sponsorSlug: "sanstech",
+      },
+      {
+        tier: "",
+        sponsorSlug: "yapikredi",
+      },
+      {
+        tier: "",
+        sponsorSlug: "hd",
+      },
+      {
+        tier: "",
+        sponsorSlug: "akatis",
+      },
+    ],
     tickets: [
       {
         type: "Standart Ticket",

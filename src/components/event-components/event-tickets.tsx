@@ -1,16 +1,11 @@
 import { Ticket } from "@/types";
-import { Check, CheckFat } from "@phosphor-icons/react";
+import { Check } from "@phosphor-icons/react";
 
 interface EventTicketsProps {
   tickets: Ticket[];
-  eventDate: string;
 }
 
-export default function EventTickets({
-  tickets,
-  eventDate,
-}: EventTicketsProps) {
-  const isPast = new Date(eventDate) < new Date();
+export default function EventTickets({ tickets }: EventTicketsProps) {
   return (
     <div className="w-5/6 2xl:w-2/3 mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
       {tickets.map((ticket, index) => (
@@ -26,13 +21,12 @@ export default function EventTickets({
             <span className="text-color-text ml-1 text-sm">TRY</span>
           </div>
           <a
-            href={isPast ? undefined : ticket.link}
-            className={`block w-full text-center bg-color-background text-color-text py-4 px-4 rounded-xl border-2 border-color-accent hover:border-color-secondary hover:bg-color-secondary hover:text-color-background transition-all duration-300 mb-6 text-xl font-medium ${isPast ? "opacity-50 cursor-not-allowed pointer-events-none" : ""}`}
+            href={ticket.link}
+            className="block w-full text-center bg-color-background text-color-text py-4 px-4 rounded-xl border-2 border-color-accent hover:border-color-secondary hover:bg-color-secondary hover:text-color-background transition-all duration-300 mb-6 text-xl font-medium"
             target="_blank"
-            tabIndex={isPast ? -1 : 0}
-            aria-disabled={isPast}
+            rel="noreferrer"
           >
-            {isPast ? "Bilet Satışı Sona Erdi" : "Destek Olun"}
+            Destek Olun
           </a>
           <div className="pt-4">
             {ticket.perks.map((perk, i) => (

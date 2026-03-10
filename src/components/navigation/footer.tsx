@@ -94,11 +94,11 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="https://kommunity.com/devmultigroup"
+                  href="https://togather.lodos.io/communities/multiacademy-94761667282726876508"
                   target="_blank"
                   className="hover:text-color-accent transition-all duration-300"
                 >
-                  Kommunity
+                  ToGather
                 </Link>
               </li>
               <li>
@@ -158,7 +158,7 @@ export default function Footer() {
               Etkinliklerden geri kalmamak için hemen aramıza katıl!
             </p>
             <Link
-              href="https://kommunity.com/devmultigroup/"
+              href="https://togather.lodos.io/communities/multiacademy-94761667282726876508"
               target="_blank"
               className="inline-block border border-color-accent px-4 py-2 rounded-md hover:bg-color-accent transition"
             >

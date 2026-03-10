@@ -1,6 +1,6 @@
 // Site wide announcement with configration
 export const announcement = {
-  show: true,
+  show: false,
   text: "🚀 Foundations of Web Development Certification Course başlıyor! React ile modern web geliştirme dünyasına adım at. 9 Mart 2026'da başlıyor!",
   backgroundColor: "#003B5C", // Dark blue color from the image
   textColor: "#FFFFFF",

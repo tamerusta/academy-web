@@ -38,8 +38,8 @@ const FloatingActionButton = ({ alwaysShow }: { alwaysShow: boolean }) => {
     },
     {
       icon: UsersThree,
-      label: "Kommunity",
-      link: "https://kommunity.com/devmultigroup/events",
+      label: "ToGather",
+      link: "https://togather.lodos.io/communities/multiacademy-94761667282726876508",
     },
     {
       icon: GithubLogo,

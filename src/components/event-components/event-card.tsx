@@ -280,37 +280,30 @@ export default function EventCard({
                 )}
               </Button>
 
-              {/* Additional buttons for upcoming events */}
-              {!(new Date(event.date) < new Date()) && (
-                <>
-                  {/* Biletler Button */}
-                  {event.tickets &&
-                    event.tickets.length > 0 &&
-                    event.tickets[0]?.link && (
-                      <Button
-                        onClick={() =>
-                          window.open(event.tickets![0].link, "_blank")
-                        }
-                        className="bg-black text-white hover:bg-gray-800 hover:shadow-md active:bg-gray-900 transition-all duration-300 px-6 py-3 rounded-lg"
-                      >
-                        <span className="flex items-center">Biletler</span>
-                      </Button>
-                    )}
+              {/* Additional buttons */}
+              <>
+                {/* Biletler Button */}
+                {event.tickets &&
+                  event.tickets.length > 0 &&
+                  event.tickets[0]?.link && (
+                    <Button
+                      onClick={() => window.open(event.tickets![0].link, "_blank")}
+                      className="bg-black text-white hover:bg-gray-800 hover:shadow-md active:bg-gray-900 transition-all duration-300 px-6 py-3 rounded-lg"
+                    >
+                      <span className="flex items-center">Biletler</span>
+                    </Button>
+                  )}
 
-                  {/* Sponsor Ol Button */}
-                  <Button
-                    onClick={() =>
-                      window.open(
-                        "mailto:developermultigroup@gmail.com",
-                        "_blank",
-                      )
-                    }
-                    className="bg-black text-white hover:bg-gray-800 hover:shadow-md active:bg-gray-900 transition-all duration-300 px-6 py-3 rounded-lg"
-                  >
-                    <span className="flex items-center">Sponsor Ol</span>
-                  </Button>
-                </>
-              )}
+                {/* Sponsor Ol Button */}
+                <Button
+                  onClick={() =>
+                    window.open("mailto:developermultigroup@gmail.com", "_blank")
+                  }
+                  className="bg-black text-white hover:bg-gray-800 hover:shadow-md active:bg-gray-900 transition-all duration-300 px-6 py-3 rounded-lg"
+                >
+                  <span className="flex items-center">Sponsor Ol</span>
+                </Button>
+              </>
             </div>
           </div>
         </div>

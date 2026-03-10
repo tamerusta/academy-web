@@ -46,7 +46,7 @@ export function getLatestEventLink(): string {
   const latestEvent = getClosestUpcomingEvent();
   return latestEvent
     ? latestEvent.registerLink
-    : "https://kommunity.com/devmultigroup";
+    : "https://togather.lodos.io/communities/multiacademy-94761667282726876508";
 }
 
 export function getSecondLatestEvent(): Event {
