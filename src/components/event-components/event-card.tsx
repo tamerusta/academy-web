@@ -287,7 +287,9 @@ export default function EventCard({
                   event.tickets.length > 0 &&
                   event.tickets[0]?.link && (
                     <Button
-                      onClick={() => window.open(event.tickets![0].link, "_blank")}
+                      onClick={() =>
+                        window.open(event.tickets![0].link, "_blank")
+                      }
                       className="bg-black text-white hover:bg-gray-800 hover:shadow-md active:bg-gray-900 transition-all duration-300 px-6 py-3 rounded-lg"
                     >
                       <span className="flex items-center">Biletler</span>
@@ -297,7 +299,10 @@ export default function EventCard({
                 {/* Sponsor Ol Button */}
                 <Button
                   onClick={() =>
-                    window.open("mailto:developermultigroup@gmail.com", "_blank")
+                    window.open(
+                      "mailto:developermultigroup@gmail.com",
+                      "_blank",
+                    )
                   }
                   className="bg-black text-white hover:bg-gray-800 hover:shadow-md active:bg-gray-900 transition-all duration-300 px-6 py-3 rounded-lg"
                 >
