@@ -1,42 +1,59 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { announcement } from "@/data/announcement";
+import { useEffect, useRef, useState } from "react";
+
+type AnnouncementData = {
+  show: boolean;
+  text: string;
+  backgroundColor: string;
+  textColor: string;
+  link?: string | null;
+  linkText?: string | null;
+  showLink: boolean;
+};
 
 export const AnnouncementBanner = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [announcement, setAnnouncement] = useState<AnnouncementData | null>(
+    null,
+  );
 
   useEffect(() => {
-    // Only run the animation if the banner is shown
-    if (!announcement.show) return;
+    fetch("/api/announcement")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && data.show) {
+          setAnnouncement(data);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    if (!announcement?.show) return;
 
     const scrollContainer = scrollRef.current;
     if (!scrollContainer) return;
 
-    // Set up the animation
     const setupAnimation = () => {
       const scrollContent = scrollContainer.querySelector(
         ".scroll-content",
       ) as HTMLElement;
       if (!scrollContent) return;
 
-      // Calculate the animation duration based on content width
-      // Slower speed for longer text
       const contentWidth = scrollContent.offsetWidth;
-      const duration = contentWidth * 0.005; // Adjust this multiplier to control speed
+      const duration = contentWidth * 0.005;
 
-      // Apply the animation
       scrollContent.style.animationDuration = `${duration}s`;
     };
 
     setupAnimation();
 
-    // Recalculate on resize
     window.addEventListener("resize", setupAnimation);
     return () => window.removeEventListener("resize", setupAnimation);
-  }, []);
+  }, [announcement]);
 
-  if (!announcement.show) return null;
+  if (!announcement?.show) return null;
 
   return (
     <div
@@ -49,11 +66,10 @@ export const AnnouncementBanner = () => {
     >
       <div className="scroll-container relative">
         <div className="scroll-content whitespace-nowrap inline-block animate-scroll">
-          {/* Repeat the text multiple times with spacing */}
           {[...Array(5)].map((_, i) => (
             <span key={i} className="inline-block px-8">
               {announcement.text}
-              {announcement.showLink && (
+              {announcement.showLink && announcement.link && (
                 <a
                   href={announcement.link}
                   target="_blank"

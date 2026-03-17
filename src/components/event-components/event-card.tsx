@@ -12,13 +12,16 @@ import { Loader2 } from "lucide-react";
 import { slugify } from "@/lib/slugify";
 import { useRouter } from "next/navigation";
 import { getFormattedDate, getEventByBaseNameAndYear } from "@/lib/event-utils";
+import { eventImageUrl, R2_BASE } from "@/lib/image-url";
 import Image from "next/image";
+import type { Event as EventType } from "@/types";
 
 interface EventCardProps {
   event: Event;
   availableYears: string[];
   selectedYear: string;
   isLatestEvent?: boolean;
+  allEvents?: EventType[];
 }
 
 export default function EventCard({
@@ -26,6 +29,7 @@ export default function EventCard({
   availableYears,
   selectedYear,
   isLatestEvent = false,
+  allEvents = [],
 }: EventCardProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -126,7 +130,7 @@ export default function EventCard({
               const latestYear = Math.max(
                 ...availableYears.map((y) => parseInt(y)),
               );
-              const imagePath = `/images/banners/${baseName}-${latestYear}.webp`;
+              const imagePath = `${R2_BASE}/${baseName}-${latestYear}/banner.webp`;
               return (
                 <Image
                   src={imagePath}
@@ -182,7 +186,7 @@ export default function EventCard({
                     ...availableYears.map((y) => parseInt(y)),
                   ).toString();
                 // Get the event for this year
-                const eventForYear = getEventByBaseNameAndYear(baseName, year);
+                const eventForYear = getEventByBaseNameAndYear(allEvents, baseName, year);
                 // Fallback to current event if not found (shouldn't happen)
                 const eventData = eventForYear || event;
                 const eventDate = new Date(eventData.date);
@@ -322,7 +326,7 @@ export default function EventCard({
             const latestYear = Math.max(
               ...availableYears.map((y) => parseInt(y)),
             );
-            const imagePath = `/images/banners/${baseName}-${latestYear}.webp`;
+            const imagePath = eventImageUrl(`${baseName}-${latestYear}`, "banners", `${baseName}-${latestYear}.webp`);
             return (
               <div className="w-full h-full flex items-center justify-center">
                 <Image

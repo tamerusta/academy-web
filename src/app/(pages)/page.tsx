@@ -1,22 +1,43 @@
 "use client";
 
 import {
-  getClosestUpcomingEvent,
   getSecondLatestEvent,
-  getMostRecentPastEvent,
   getLatestNavigableEvent,
 } from "@/lib/event-utils";
-import { useEffect } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useEventColor } from "@/context/EventColorContext";
 import EventPage from "@/components/event-page/EventPage";
-// import { LanyardCard } from "@/components/lanyard-badge";
+import Loading from "@/app/loading";
+import type { Event } from "@/types";
 
 export default function HeroPage() {
-  // Get the latest navigable event regardless of whether it's upcoming or past
-  const latestEventDetails = getLatestNavigableEvent();
-
-  const secondLatest = getSecondLatestEvent();
+  const [events, setEvents] = useState<Event[] | null>(null);
   const { setCurrentEvent } = useEventColor();
+
+  useEffect(() => {
+    fetch("/api/events")
+      .then((res) => res.json())
+      .then((data: Event[]) => setEvents(data))
+      .catch(() => setEvents([]));
+  }, []);
+
+  const latestEventDetails = useMemo(
+    () => (events ? getLatestNavigableEvent(events) : null),
+    [events],
+  );
+
+  const secondLatest = useMemo(
+    () => (events && events.length >= 2 ? getSecondLatestEvent(events) : undefined),
+    [events],
+  );
+
+  useEffect(() => {
+    if (latestEventDetails) {
+      setCurrentEvent(latestEventDetails);
+    }
+  }, [latestEventDetails, setCurrentEvent]);
+
+  if (!events) return <Loading />;
 
   if (!latestEventDetails) {
     return (
@@ -26,16 +47,7 @@ export default function HeroPage() {
     );
   }
 
-  useEffect(() => {
-    if (latestEventDetails) {
-      setCurrentEvent(latestEventDetails);
-    }
-  }, [latestEventDetails]);
-
   return (
-    <>
-      {/* <LanyardCard className="rounded-lg shadow-xl" height="80vh" /> */}
-      <EventPage event={latestEventDetails} previousEvent={secondLatest} hero />
-    </>
+    <EventPage event={latestEventDetails} previousEvent={secondLatest} hero />
   );
 }

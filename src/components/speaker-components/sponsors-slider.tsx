@@ -2,14 +2,17 @@
 
 import type { Sponsor } from "@/types";
 import { useEffect, useRef, useState } from "react";
+import { eventImageUrl } from "@/lib/image-url";
 import Image from "next/image";
 
 const SponsorSlider = ({
   sponsors,
+  eventSlug,
   reverse = false,
-  speed = 1, // Pixels per animation frame
+  speed = 1,
 }: {
   sponsors: Sponsor[];
+  eventSlug: string;
   reverse?: boolean;
   speed?: number;
 }) => {
@@ -22,7 +25,6 @@ const SponsorSlider = ({
     const inner = innerRef.current;
     if (!container || !inner || sponsors.length === 0) return;
 
-    // Wait for images to load to get accurate measurements
     const timer = setTimeout(() => {
       setInitialized(true);
     }, 100);
@@ -37,11 +39,9 @@ const SponsorSlider = ({
     const inner = innerRef.current;
     if (!container || !inner || sponsors.length === 0) return;
 
-    // Get all sponsor items
     const items = Array.from(inner.querySelectorAll(".sponsor-item"));
     if (items.length === 0) return;
 
-    // Calculate the total width of all original sponsor items
     const totalWidth = items.slice(0, sponsors.length).reduce((sum, item) => {
       const style = window.getComputedStyle(item);
       const marginLeft = Number.parseFloat(style.marginLeft || "0");
@@ -51,23 +51,17 @@ const SponsorSlider = ({
       );
     }, 0);
 
-    // Set the initial position
     let position = 0;
 
     const animate = () => {
-      // Move in the specified direction
       position += reverse ? speed : -speed;
 
-      // Check if we need to reset position
       if (!reverse && position <= -totalWidth) {
-        // If scrolling left (normal), reset when first set is completely scrolled out
         position += totalWidth;
       } else if (reverse && position >= totalWidth) {
-        // If scrolling right (reverse), reset when first set is completely scrolled out
         position -= totalWidth;
       }
 
-      // Apply the transform
       inner.style.transform = `translateX(${position}px)`;
 
       requestAnimationFrame(animate);
@@ -80,8 +74,6 @@ const SponsorSlider = ({
     };
   }, [sponsors, reverse, speed, initialized]);
 
-  // Create enough duplicates to ensure continuous scrolling
-  // We need at least 3 sets to ensure there's always content visible
   const duplicatedSponsors = [
     ...sponsors,
     ...sponsors,
@@ -103,10 +95,8 @@ const SponsorSlider = ({
   return (
     <div className="w-full flex justify-center bg-color-background overflow-hidden">
       <div className="w-2/3 relative">
-        {/* Fading edge - left */}
         <div className="absolute left-0 top-0 h-full w-16 bg-gradient-to-r from-color-background to-transparent z-10"></div>
 
-        {/* Carousel container */}
         <div ref={containerRef} className="relative h-40 overflow-hidden">
           <div
             ref={innerRef}
@@ -119,7 +109,11 @@ const SponsorSlider = ({
                 className="mx-8 flex-shrink-0 sponsor-item"
               >
                 <Image
-                  src={`/images/sponsors/${sponsor.sponsorSlug}.webp`}
+                  src={eventImageUrl(
+                    eventSlug,
+                    "sponsors",
+                    `${sponsor.sponsorSlug}.webp`,
+                  )}
                   alt={`${sponsor.sponsorSlug} logo`}
                   width={160}
                   height={56}
@@ -132,7 +126,6 @@ const SponsorSlider = ({
           </div>
         </div>
 
-        {/* Fading edge - right */}
         <div className="absolute right-0 top-0 h-full w-16 bg-gradient-to-l from-color-background to-transparent z-10"></div>
       </div>
     </div>

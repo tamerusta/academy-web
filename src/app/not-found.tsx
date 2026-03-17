@@ -6,15 +6,25 @@ import { useRouter } from "next/navigation";
 import CountdownTimer from "@/components/common/countdown-timer";
 import { getLatestEvent } from "@/lib/event-utils";
 import { Sparkles, Ghost, Home, Coffee } from "lucide-react";
+import type { Event } from "@/types";
 
 export default function NotFound() {
   const router = useRouter();
-  const latestEventDetails = getLatestEvent();
+  const [latestEventDetails, setLatestEventDetails] = useState<Event | null>(null);
   const [clickCount, setClickCount] = useState(0);
   const [showEasterEgg, setShowEasterEgg] = useState(false);
   const [stars, setStars] = useState<
     Array<{ id: number; x: number; y: number; size: number; opacity: number }>
   >([]);
+
+  useEffect(() => {
+    fetch("/api/events")
+      .then((res) => res.json())
+      .then((data: Event[]) => {
+        if (data.length > 0) setLatestEventDetails(getLatestEvent(data));
+      })
+      .catch(() => {});
+  }, []);
 
   // Generate stars for the background
   useEffect(() => {
@@ -101,7 +111,7 @@ export default function NotFound() {
           Bir sonraki etkinliğe kalan süre:
         </p>
 
-        <CountdownTimer center targetDate={latestEventDetails.date} />
+        <CountdownTimer center targetDate={latestEventDetails?.date ?? new Date().toISOString()} />
       </div>
 
       <Button

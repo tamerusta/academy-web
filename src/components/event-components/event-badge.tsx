@@ -1,6 +1,7 @@
 "use client";
 import { motion, Variants } from "framer-motion";
 import { useState, MouseEvent } from "react";
+import { imageUrl } from "@/lib/image-url";
 
 export default function EventBadge() {
   const [isClicked, setIsClicked] = useState(false);
@@ -117,7 +118,7 @@ export default function EventBadge() {
             {/* Image logo in bottom right */}
             <div className="absolute bottom-4 right-4 h-8 w-8">
               <img
-                src="/images/logo/logo-small.webp" // Replace with your actual image path
+                src={imageUrl("/images/logo/logo-small.webp")}
                 alt="Logo"
                 className="w-full h-full object-contain"
               />

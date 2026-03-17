@@ -8,6 +8,7 @@ import {
   XLogo,
 } from "@phosphor-icons/react";
 import { link } from "fs";
+import { imageUrl } from "@/lib/image-url";
 import { useState, useEffect, useRef } from "react";
 
 const FloatingActionButton = ({ alwaysShow }: { alwaysShow: boolean }) => {
@@ -113,7 +114,7 @@ const FloatingActionButton = ({ alwaysShow }: { alwaysShow: boolean }) => {
         aria-expanded={isActive}
       >
         <img
-          src="/images/logo/logo-small.webp"
+          src={imageUrl("/images/logo/logo-small.webp")}
           alt="Toggle Button Icon"
           className={`select-none absolute inset-0 w-1/2 h-1/2 object-contain transition-transform duration-300 mx-auto my-auto ${
             isActive ? "rotate-180" : ""

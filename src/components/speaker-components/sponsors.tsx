@@ -1,14 +1,20 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Sponsor } from "@/types";
+import { eventImageUrl } from "@/lib/image-url";
 import Image from "next/image";
 
 interface SponsorGroups {
   [key: string]: Sponsor[];
 }
 
-const Sponsors = ({ sponsors }: { sponsors: Sponsor[] }) => {
-  // Group sponsors by tier
+const Sponsors = ({
+  sponsors,
+  eventSlug,
+}: {
+  sponsors: Sponsor[];
+  eventSlug: string;
+}) => {
   const sponsorsByTier = sponsors.reduce<SponsorGroups>((groups, sponsor) => {
     const tier = sponsor.tier;
     if (!groups[tier]) {
@@ -18,7 +24,6 @@ const Sponsors = ({ sponsors }: { sponsors: Sponsor[] }) => {
     return groups;
   }, {});
 
-  // Sort tiers by importance
   const tierOrder = ["Platin", "Altın", "Gümüş", "Bronz"];
   const sortedTiers = Object.keys(sponsorsByTier).sort(
     (a, b) => tierOrder.indexOf(a) - tierOrder.indexOf(b),
@@ -61,7 +66,11 @@ const Sponsors = ({ sponsors }: { sponsors: Sponsor[] }) => {
                 whileHover={{ scale: 1.05 }}
               >
                 <Image
-                  src={`/images/sponsors/${sponsor.sponsorSlug}.webp`}
+                  src={eventImageUrl(
+                    eventSlug,
+                    "sponsors",
+                    `${sponsor.sponsorSlug}.webp`,
+                  )}
                   alt={sponsor.sponsorSlug || `${tier} Sponsor`}
                   className="h-16 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
                   width={200}

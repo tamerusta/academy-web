@@ -1,11 +1,12 @@
 "use client";
 
+import { imageUrl } from "@/lib/image-url";
+
 export default function Loading() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-black">
-      {/* Replace "/logo.png" with your logo path */}
       <img
-        src="/images/logo/logo-small-white.webp"
+        src={imageUrl("/images/logo/logo-small-white.webp")}
         alt="Logo"
         className="mb-8 w-16"
       />

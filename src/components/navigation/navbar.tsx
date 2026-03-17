@@ -10,8 +10,8 @@ import {
 } from "@/components/ui/navigation-menu";
 import { List, X } from "@phosphor-icons/react";
 import Image from "next/image";
-import { announcement } from "@/data/announcement";
 import { AnnouncementBanner } from "@/components/navigation/announcement-banner";
+import { imageUrl } from "@/lib/image-url";
 
 const Navbar = ({ eventLink }: { eventLink: string }) => {
   const pathname = usePathname();
@@ -30,7 +30,7 @@ const Navbar = ({ eventLink }: { eventLink: string }) => {
         router.push(href);
       }
     }
-    setIsExpanded(false); // Close navbar after clicking a link
+    setIsExpanded(false);
   };
 
   const navigationItems = [
@@ -43,15 +43,12 @@ const Navbar = ({ eventLink }: { eventLink: string }) => {
   return (
     <>
       <AnnouncementBanner />
-      <header
-        className={`${announcement.show ? "top-[40px] sm:top-[44px]" : "top-0"} absolute w-5/6 mt-[34px] rounded-lg z-50 px-4 sm:px-4 bg-color-primary py-2 left-1/2 -translate-x-1/2`}
-      >
+      <header className="top-0 absolute w-5/6 mt-[34px] rounded-lg z-50 px-4 sm:px-4 bg-color-primary py-2 left-1/2 -translate-x-1/2">
         <div className="relative w-full h-20 flex items-center justify-center">
-          {/* Logo (solda) */}
           <div className="absolute left-0 pl-4 flex items-center">
             <a href="/">
               <Image
-                src="/images/logo/logo-wide-dark.webp"
+                src={imageUrl("/images/logo/logo-wide-dark.webp")}
                 alt="DMG Logo"
                 width={196}
                 height={196}
@@ -61,7 +58,6 @@ const Navbar = ({ eventLink }: { eventLink: string }) => {
             </a>
           </div>
 
-          {/* Navigation (ortada) */}
           <div className="hidden lg:flex items-center justify-center">
             <NavigationMenu>
               <NavigationMenuList className="flex gap-4 xl:gap-8 group">
@@ -82,7 +78,6 @@ const Navbar = ({ eventLink }: { eventLink: string }) => {
             </NavigationMenu>
           </div>
 
-          {/* Button (sağda) */}
           <div className="absolute right-0 pr-4 hidden lg:flex">
             <Button
               variant="outline"
@@ -102,7 +97,6 @@ const Navbar = ({ eventLink }: { eventLink: string }) => {
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
           <div className="lg:hidden absolute right-4">
             <Button
               className="text-black"
@@ -117,7 +111,6 @@ const Navbar = ({ eventLink }: { eventLink: string }) => {
         </div>
       </header>
 
-      {/* Mobile Fullscreen Menu */}
       <div
         className={`fixed inset-0 bg-white z-[999] flex flex-col items-center justify-center transition-all duration-300 ${
           isExpanded

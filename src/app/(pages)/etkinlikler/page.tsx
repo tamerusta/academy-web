@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import EventCard from "@/components/event-components/event-card";
-import events from "@/data/events";
-import { getLatestEvent } from "@/lib/event-utils";
+import { getLatestEvent, getEventByBaseNameAndYear } from "@/lib/event-utils";
 import { useEventColor } from "@/context/EventColorContext";
 import Loading from "@/app/loading";
 import type { Event } from "@/types";
@@ -16,38 +15,35 @@ interface EventGroup {
 }
 
 export default function Events() {
+  const [events, setEvents] = useState<Event[] | null>(null);
   const [latestEvent, setLatestEvent] = useState<Event | null>(null);
   const [eventGroups, setEventGroups] = useState<EventGroup[]>([]);
   const { setCurrentEvent } = useEventColor();
 
   useEffect(() => {
-    const fetchLatestEvent = async () => {
-      const event = await getLatestEvent();
-      if (!event) {
-        notFound();
-        return;
-      }
-      setLatestEvent(event);
-      setCurrentEvent(event);
-    };
-
-    fetchLatestEvent();
+    fetch("/api/events")
+      .then((res) => res.json())
+      .then((data: Event[]) => {
+        setEvents(data);
+        if (data.length === 0) return;
+        const latest = getLatestEvent(data);
+        setLatestEvent(latest);
+        setCurrentEvent(latest);
+      })
+      .catch(() => setEvents([]));
   }, [setCurrentEvent]);
 
   useEffect(() => {
-    if (!latestEvent) return;
+    if (!latestEvent || !events) return;
 
     // Group events by their base name (without year suffix)
     const eventMap = new Map<string, Event[]>();
 
-    const allEvents = events;
-
-    allEvents.forEach((event) => {
-      // Extract base name by removing year suffix (assuming format: name YYYY or name-YYYY)
+    events.forEach((event) => {
       const nameMatch = event.name.match(/^(.+?)\s+(\d{4})$|^(.+)-(\d{4})$/);
       if (nameMatch) {
-        const baseName = nameMatch[1] || nameMatch[3]; // Use group 1 (space) or group 3 (hyphen)
-        const year = nameMatch[2] || nameMatch[4]; // Use group 2 (space) or group 4 (hyphen)
+        const baseName = nameMatch[1] || nameMatch[3];
+        const year = nameMatch[2] || nameMatch[4];
 
         if (!eventMap.has(baseName)) {
           eventMap.set(baseName, []);
@@ -59,7 +55,6 @@ export default function Events() {
     // Create event groups with available years
     const groups: EventGroup[] = [];
     eventMap.forEach((eventList, baseName) => {
-      // Sort events by year (newest first)
       eventList.sort((a, b) => {
         const yearA = a.name.match(/\s+(\d{4})$|-(\d{4})$/)?.[1] || "0";
         const yearB = b.name.match(/\s+(\d{4})$|-(\d{4})$/)?.[1] || "0";
@@ -74,20 +69,18 @@ export default function Events() {
         .filter(Boolean);
 
       groups.push({
-        baseEvent: eventList[0], // Use the most recent event as base
+        baseEvent: eventList[0],
         availableYears,
-        selectedYear: availableYears[0], // Default to most recent year
+        selectedYear: availableYears[0],
       });
     });
 
-    // Sort groups by the most recent event date
     groups.sort(
       (a, b) =>
         new Date(b.baseEvent.date).getTime() -
         new Date(a.baseEvent.date).getTime(),
     );
 
-    // Move the latest event group to the top
     const latestEventIndex = groups.findIndex(
       (group) =>
         group.baseEvent.id === latestEvent.id ||
@@ -112,13 +105,12 @@ export default function Events() {
     }
 
     setEventGroups(groups);
-  }, [latestEvent]);
+  }, [latestEvent, events]);
 
-  if (!latestEvent) {
+  if (!events || !latestEvent) {
     return <Loading />;
   }
 
-  // Flatten all event groups into a single array of events (with group info)
   const allEventCards = eventGroups.map((group) => ({
     event: group.baseEvent,
     availableYears: group.availableYears,
@@ -126,22 +118,20 @@ export default function Events() {
     isLatestEvent: group.baseEvent.id === latestEvent.id,
   }));
 
-  // Split into upcoming and completed events
   const now = new Date();
   const upcomingEvents = allEventCards
     .filter(({ event }) => new Date(event.date) > now)
     .sort(
       (a, b) =>
         new Date(a.event.date).getTime() - new Date(b.event.date).getTime(),
-    ); // soonest first
+    );
   const completedEvents = allEventCards
     .filter(({ event }) => new Date(event.date) <= now)
     .sort(
       (a, b) =>
         new Date(b.event.date).getTime() - new Date(a.event.date).getTime(),
-    ); // most recent first
+    );
 
-  // Mark the closest upcoming event as 'güncel'
   if (upcomingEvents.length > 0) {
     upcomingEvents.forEach((e, i) => (e.isLatestEvent = false));
     upcomingEvents[0].isLatestEvent = true;
@@ -156,6 +146,7 @@ export default function Events() {
               <EventCard
                 key={`${props.event.id}-${props.selectedYear}`}
                 {...props}
+                allEvents={events}
               />
             ))}
           </div>
@@ -169,6 +160,7 @@ export default function Events() {
               <EventCard
                 key={`${props.event.id}-${props.selectedYear}`}
                 {...props}
+                allEvents={events}
               />
             ))}
           </div>

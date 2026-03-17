@@ -10,6 +10,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import FloatingActionButton from "@/components/common/floating-action-button";
+import { imageUrl } from "@/lib/image-url";
 
 export default function Footer() {
   const [showButton, setShowButton] = useState(false);
@@ -29,7 +30,7 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left w-full gap-6">
           <div className="flex items-center justify-center gap-2">
             <Image
-              src="/images/logo/dmg-logo.webp"
+              src={imageUrl("/images/logo/dmg-logo.webp")}
               alt="MultiGroup Logo"
               width={240}
               height={40}
@@ -54,6 +55,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/"
+                  prefetch={false}
                   className="hover:text-color-accent transition-all duration-300"
                 >
                   Anasayfa
@@ -62,6 +64,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/etkinlikler"
+                  prefetch={false}
                   className="hover:text-color-accent transition-all duration-300"
                 >
                   Etkinlikler

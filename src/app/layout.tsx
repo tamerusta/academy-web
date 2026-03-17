@@ -1,23 +1,7 @@
 import type { Metadata } from "next";
-// import { Geist, Geist_Mono } from "next/font/google";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/navigation/navbar";
-import { getLatestEventLink } from "@/lib/event-utils";
-import Script from "next/script";
 import { Toaster } from "@/components/ui/toaster";
-import { EventColorProvider } from "@/context/EventColorContext";
-import Footer from "@/components/navigation/footer";
-
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -44,7 +28,6 @@ export const metadata: Metadata = {
     "Topluluk",
     "Yazılım Topluluğu",
   ],
-  // metadataBase: new URL("https://furkanunsalan.dev"),
 };
 
 export default function RootLayout({
@@ -52,25 +35,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const latestEventLink = getLatestEventLink();
-  console.log(latestEventLink ? latestEventLink : "boş");
-
   return (
     <html lang="en">
-      <head>
-        <Script
-          defer
-          src="https://cloud.umami.is/script.js"
-          data-website-id={process.env.UMAMI_PROJECT_ID}
-        ></Script>
-      </head>
       <body className={`${montserrat.variable} bg-color-background`}>
-        <EventColorProvider>
-          <Navbar eventLink={latestEventLink} />
-          {children}
-          <Toaster />
-          <Footer />
-        </EventColorProvider>
+        {children}
+        <Toaster />
       </body>
     </html>
   );

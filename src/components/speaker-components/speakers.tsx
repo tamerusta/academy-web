@@ -3,18 +3,18 @@ import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Speaker } from "@/types";
 import { slugify } from "@/lib/slugify";
+import { eventImageUrl } from "@/lib/image-url";
 import Image from "next/image";
 import { InstagramLogo, LinkedinLogo, XLogo } from "@phosphor-icons/react";
 
 interface SpeakerProps {
   speakers: Speaker[];
+  eventSlug: string;
 }
 
-const Speakers: React.FC<SpeakerProps> = ({ speakers }) => {
-  // State to track which cards are flipped on mobile
+const Speakers: React.FC<SpeakerProps> = ({ speakers, eventSlug }) => {
   const [flippedCards, setFlippedCards] = useState<Record<string, boolean>>({});
 
-  // Toggle flip state for mobile devices
   const handleCardClick = (speakerName: string) => {
     setFlippedCards((prev) => ({
       ...prev,
@@ -44,15 +44,17 @@ const Speakers: React.FC<SpeakerProps> = ({ speakers }) => {
               <Card className="absolute w-full h-full overflow-hidden [backface-visibility:hidden]">
                 <div className="relative w-full h-full">
                   <Image
-                    src={`/images/speakers/${slugify(speaker.fullName)}.webp`}
+                    src={eventImageUrl(
+                      eventSlug,
+                      "speakers",
+                      `${slugify(speaker.fullName)}.webp`,
+                    )}
                     alt={speaker.fullName}
                     className="object-cover object-[50%_25%]"
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"
                     loading="lazy"
                   />
-                  {/* Gradient Overlay */}
-                  {/* <div className="absolute inset-0 bg-gradient-to-r from-color-accent to-color-primary opacity-40" /> */}
                 </div>
               </Card>
 
@@ -72,7 +74,11 @@ const Speakers: React.FC<SpeakerProps> = ({ speakers }) => {
                   <div className="flex justify-center w-full h-16">
                     <div className="relative w-24 h-16">
                       <Image
-                        src={`/images/sponsors/${slugify(speaker.company)}.webp`}
+                        src={eventImageUrl(
+                          eventSlug,
+                          "sponsors",
+                          `${slugify(speaker.company)}.webp`,
+                        )}
                         alt={`${speaker.company} logo`}
                         className="object-contain"
                         fill

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Calendar, Queue, Warning } from "@phosphor-icons/react";
 import { slugify } from "@/lib/slugify";
+import { eventImageUrl } from "@/lib/image-url";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -19,11 +20,13 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 interface SessionContainerProps {
   event: Event;
   color: string; // Now expecting an HSL value like "214 83.7% 51%"
+  eventSlug: string;
 }
 
 export default function SessionContainer({
   event,
   color,
+  eventSlug,
 }: SessionContainerProps) {
   const { toast } = useToast();
   const router = useRouter();
@@ -288,7 +291,7 @@ export default function SessionContainer({
                   Seçilen Oturumlar ({selectedSessions.length})
                 </h3>
                 <Button
-                  data-umami-event="Generate Custom Calendar"
+
                   onClick={() => handleCalendarDownload(selectedSessions)}
                   style={{
                     backgroundColor: primaryColor,
@@ -358,7 +361,7 @@ export default function SessionContainer({
               >
                 <div className="relative">
                   <Image
-                    src={`/images/speakers/${slugify(session.speakerName)}.webp`}
+                    src={eventImageUrl(eventSlug, "speakers", `${slugify(session.speakerName)}.webp`)}
                     alt={session.speakerName}
                     width={128}
                     height={128}
@@ -415,7 +418,7 @@ export default function SessionContainer({
                     {/* Image spanning 2 rows */}
                     <div className="relative w-16 aspect-square rounded-full overflow-hidden border-4 border-white shadow-md shrink-0 row-span-2">
                       <Image
-                        src={`/images/speakers/${slugify(session.speakerName)}.webp`}
+                        src={eventImageUrl(eventSlug, "speakers", `${slugify(session.speakerName)}.webp`)}
                         alt={session.speakerName}
                         fill
                         className="object-cover"
@@ -472,7 +475,7 @@ export default function SessionContainer({
                   <div className="flex items-center gap-4 flex-1 min-w-0">
                     <div className="relative w-[60px] aspect-square rounded-full overflow-hidden border-4 border-white shadow-md shrink-0">
                       <Image
-                        src={`/images/speakers/${slugify(session.speakerName)}.webp`}
+                        src={eventImageUrl(eventSlug, "speakers", `${slugify(session.speakerName)}.webp`)}
                         alt={session.speakerName}
                         fill
                         className="object-cover"
@@ -525,7 +528,7 @@ export default function SessionContainer({
           {!isPastEvent && (
             <div className="bg-gradient-to-r from-[#3682F1] to-[#C55E85] p-[2px] rounded-2xl w-full md:w-1/3">
               <Button
-                data-umami-event="Generate Full Calendar"
+
                 onClick={() => handleCalendarDownload(filteredSessions)}
                 className="w-full bg-gray-700 hover:bg-gray-800 active:bg-gray-900 font-bold shadow-lg hover:shadow-xl transition-all flex items-center justify-center p-6 rounded-2xl"
               >
@@ -536,7 +539,7 @@ export default function SessionContainer({
           )}
           <div className="bg-gradient-to-r from-[#3682F1] to-[#C55E85] p-[2px] rounded-2xl w-full md:w-1/3">
             <Button
-              data-umami-event="Youtube Playlist"
+
               onClick={() => handleRoute()}
               className="w-full bg-gray-700 hover:bg-gray-800 active:bg-gray-900 font-bold shadow-lg hover:shadow-xl transition-all flex items-center justify-center p-6 rounded-2xl"
             >

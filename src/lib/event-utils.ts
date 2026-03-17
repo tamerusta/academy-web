@@ -1,4 +1,3 @@
-import events from "@/data/events";
 import { Event } from "@/types";
 import { slugify } from "./slugify";
 
@@ -21,7 +20,6 @@ export function formatIsoDate(isoDate: string): string {
 
   const day = date.getDate();
   const year = date.getFullYear();
-  // Using Turkish locale to get a long month name (e.g., "Mart")
   const month = date.toLocaleString("tr-TR", { month: "long" });
 
   return `${day} ${month} ${year}`;
@@ -33,30 +31,28 @@ export function sortEventsByDate(events: Event[]): Event[] {
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 }
 
-export function getLatestEvent(): Event {
+export function getLatestEvent(events: Event[]): Event {
   const sortedEvents = sortEventsByDate(events);
   return sortedEvents[sortedEvents.length - 1];
 }
 
-export function getEventBySlug(slug: string) {
+export function getEventBySlug(events: Event[], slug: string) {
   return events.find((event) => slugify(event.name) === slug) || null;
 }
 
-export function getLatestEventLink(): string {
-  const latestEvent = getClosestUpcomingEvent();
+export function getLatestEventLink(events: Event[]): string {
+  const latestEvent = getClosestUpcomingEvent(events);
   return latestEvent
     ? latestEvent.registerLink
     : "https://togather.lodos.io/communities/multiacademy-94761667282726876508";
 }
 
-export function getSecondLatestEvent(): Event {
+export function getSecondLatestEvent(events: Event[]): Event {
   const sortedEvents = sortEventsByDate(events);
-
-  // Return the second latest event
   return sortedEvents[sortedEvents.length - 2];
 }
 
-export function getClosestUpcomingEvent(): Event | null {
+export function getClosestUpcomingEvent(events: Event[]): Event | null {
   const now = new Date();
   const upcoming = events
     .filter((e) => new Date(e.date) > now)
@@ -64,7 +60,7 @@ export function getClosestUpcomingEvent(): Event | null {
   return upcoming[0] || null;
 }
 
-export function getMostRecentPastEvent(): Event | null {
+export function getMostRecentPastEvent(events: Event[]): Event | null {
   const now = new Date();
   const past = events
     .filter((e) => new Date(e.date) <= now)
@@ -72,7 +68,7 @@ export function getMostRecentPastEvent(): Event | null {
   return past[0] || null;
 }
 
-export function getLatestNavigableEvent(): Event | null {
+export function getLatestNavigableEvent(events: Event[]): Event | null {
   const navigableEvents = events.filter((e) => e.navigable !== false);
   if (navigableEvents.length === 0) return null;
 
@@ -82,12 +78,11 @@ export function getLatestNavigableEvent(): Event | null {
   return sortedNavigable[0];
 }
 
-// Returns the event for a given base name and year (e.g., 'Mobile Developer Conference', '2024')
 export function getEventByBaseNameAndYear(
+  events: Event[],
   baseName: string,
   year: string,
 ): Event | null {
-  // Normalize baseName for comparison
   const normalizedBase = baseName
     .trim()
     .toLowerCase()
@@ -95,7 +90,6 @@ export function getEventByBaseNameAndYear(
   return (
     events.find((event) => {
       const eventName = event.name.trim().toLowerCase();
-      // Remove year from event name for base comparison
       const eventBase = eventName
         .replace(/[-\s]?\d{4}$/, "")
         .replace(/[-\s]+/g, "-");

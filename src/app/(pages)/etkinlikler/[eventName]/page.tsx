@@ -1,11 +1,11 @@
 "use client";
 
-import { use, useEffect } from "react";
+import { use, useEffect, useState } from "react";
 import type { Event } from "@/types";
 import { notFound } from "next/navigation";
-import { getEventBySlug } from "@/lib/event-utils";
 import { useEventColor } from "@/context/EventColorContext";
 import EventPage from "@/components/event-page/EventPage";
+import Loading from "@/app/loading";
 
 export default function DynamicEventPage({
   params: paramsPromise,
@@ -14,17 +14,28 @@ export default function DynamicEventPage({
 }) {
   const params = use(paramsPromise);
   const { setCurrentEvent } = useEventColor();
-  const eventDetails: Event | null = getEventBySlug(params.eventName);
+  const [eventDetails, setEventDetails] = useState<Event | null | undefined>(
+    undefined,
+  );
+
+  useEffect(() => {
+    fetch(`/api/events/${params.eventName}`)
+      .then((res) => {
+        if (!res.ok) return null;
+        return res.json();
+      })
+      .then((data: Event | null) => {
+        setEventDetails(data);
+        if (data) setCurrentEvent(data);
+      })
+      .catch(() => setEventDetails(null));
+  }, [params.eventName]);
+
+  if (eventDetails === undefined) return <Loading />;
 
   if (!eventDetails || eventDetails.navigable === false) {
     notFound();
   }
-
-  useEffect(() => {
-    if (eventDetails) {
-      setCurrentEvent(eventDetails);
-    }
-  }, [eventDetails]);
 
   return <EventPage event={eventDetails} hero={false} />;
 }

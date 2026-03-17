@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import type { Event } from "@/types";
-// import CountdownTimer from "@/components/common/countdown-timer";
 import SessionContainer from "@/components/speaker-components/session-container";
 import SpeakerCarousel from "@/components/speaker-components/speakers";
 import SponsorSlider from "@/components/speaker-components/sponsors-slider";
@@ -16,7 +15,7 @@ import ActionCard from "../event-components/action-card";
 import IconDivider from "../dividers/icon-divider";
 import TextDivider from "../dividers/text-divider";
 import { slugify } from "@/lib/slugify";
-// import EventBadge from "../event-badge";
+import { eventImageUrl, organizerImageUrl, R2_BASE } from "@/lib/image-url";
 
 interface EventPageProps {
   event: Event;
@@ -30,6 +29,7 @@ export default function EventPage({
   hero,
 }: EventPageProps) {
   const [minHeight, setMinHeight] = useState("100vh");
+  const eventSlug = slugify(event.name);
 
   useEffect(() => {
     const updateMinHeight = () => {
@@ -63,7 +63,6 @@ export default function EventPage({
   return (
     <div className="bg-color-background">
       <Head>
-        {/* Preload key fonts */}
         <link
           rel="preload"
           href="/fonts/TanNimbus.woff2"
@@ -75,7 +74,6 @@ export default function EventPage({
 
       {/* Hero Section */}
       <div className="flex flex-col items-center justify-between bg-color-background w-5/6 mx-auto py-24 min-h-screen">
-        {/* Top Section with Event Name */}
         <div className="w-full">
           <motion.div
             className="select-none text-color-text text-4xl sm:text-6xl font-extrabold px-2 pt-24 md:pt-32 max-w-lg sm:max-w-2xl leading-snug sm:leading-[64px] text-center lg:text-left"
@@ -93,7 +91,6 @@ export default function EventPage({
               </div>
             </div>
 
-            {/* CTA Button */}
             <motion.div
               className="mt-10"
               initial={{ opacity: 0, y: 20 }}
@@ -114,14 +111,12 @@ export default function EventPage({
           </motion.div>
         </div>
 
-        {/* Bottom Section */}
         <motion.div
           className="select-none w-full flex flex-col lg:flex-row items-start lg:items-center space-y-4 lg:space-y-0 lg:space-x-8 mt-8"
           variants={staggerChildren}
           initial="initial"
           animate="animate"
         >
-          {/* Initial Metrics */}
           <motion.div
             className="select-none text-color-text text-xl sm:text-4xl py-4 md:py-1 rounded-lg text-center lg:text-left w-full font-extrabold"
             variants={fadeInUp}
@@ -143,12 +138,16 @@ export default function EventPage({
             </div>
           </motion.div>
 
-          {/* Organizers */}
           <motion.div
             className="flex flex-row justify-center items-center lg:justify-end mb-10 w-full"
             variants={fadeInUp}
           >
-            <AnimatedTooltip items={event.organizers} />
+            <AnimatedTooltip
+              items={event.organizers.map((o) => ({
+                ...o,
+                image: organizerImageUrl(eventSlug, o.image),
+              }))}
+            />
           </motion.div>
         </motion.div>
       </div>
@@ -156,18 +155,16 @@ export default function EventPage({
       <p className="text-center w-2/3 mx-auto md:w-full bg-color-background text-lg md:text-2xl font-semibold">
         Sektörün önde gelen şirketleri bu etkinlikte yerlerini aldı
       </p>
-      <SponsorSlider sponsors={event.sponsors} />
+      <SponsorSlider sponsors={event.sponsors} eventSlug={eventSlug} />
 
       <div className="bg-color-background pt-16">
-        {/* Card-1 */}
         <ActionCard
           variant="right-image"
           name={event.name}
           description={event.cardDescription}
-          image={`/images/mockups/${slugify(event.name)}.webp`}
+          image={`${R2_BASE}/${eventSlug}/mockup.webp`}
         />
 
-        {/* Divider-1 */}
         <IconDivider />
 
         <motion.div
@@ -177,7 +174,11 @@ export default function EventPage({
           transition={{ duration: 0.6 }}
         >
           <span id="etkinlik-akisi" />
-          <SessionContainer event={event} color={event.colorPalette.accent} />
+          <SessionContainer
+            event={event}
+            color={event.colorPalette.accent}
+            eventSlug={eventSlug}
+          />
         </motion.div>
 
         <span id="konusmacilar"></span>
@@ -197,7 +198,7 @@ export default function EventPage({
             göz atın!
           </HighlightHeading>
 
-          <SpeakerCarousel speakers={event.speakers} />
+          <SpeakerCarousel speakers={event.speakers} eventSlug={eventSlug} />
         </motion.div>
 
         {event.tickets && (
@@ -217,17 +218,15 @@ export default function EventPage({
           </>
         )}
 
-        {/* Divider-2 */}
         <TextDivider />
 
-        {/* Card-2 */}
         <ActionCard
           variant="left-image"
           title="Sizi aramızda görmek için can atıyoruz!"
           description="Eğer hala yerini ayırtmadıysan bu harika deneyimin bir parçası olmak 1 tık uzağında. Seni etkinlik sayfamıza alalım!"
           buttonLabel="Aramıza Katıl"
           buttonLink={event.registerLink}
-          image="/images/mockups/reserved.webp"
+          image={`${R2_BASE}/shared/mockups/reserved.webp`}
         />
       </div>
     </div>

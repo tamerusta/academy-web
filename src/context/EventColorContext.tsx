@@ -2,7 +2,6 @@
 
 import React, { createContext, useState, useContext, ReactNode } from "react";
 import { usePathname } from "next/navigation";
-import events from "@/data/events";
 import { Event } from "@/types";
 
 type EventColorContextType = {
@@ -16,19 +15,34 @@ const EventColorContext = createContext<EventColorContextType>({
 });
 
 const notFoundColors = {
-  primary: "348 83% 47%", // Pure black
-  secondary: "348 83% 47%", // Pure white
-  accent: "348 83% 47%", // Vibrant red
-  background: "0 0% 6%", // Near-black
-  text: "0 0% 100%", // White text
+  primary: "348 83% 47%",
+  secondary: "348 83% 47%",
+  accent: "348 83% 47%",
+  background: "0 0% 6%",
+  text: "0 0% 100%",
 };
 
-export const EventColorProvider = ({ children }: { children: ReactNode }) => {
-  const [currentEvent, setCurrentEvent] = useState<Event | null>(events[0]);
+export const EventColorProvider = ({
+  children,
+  events = [],
+}: {
+  children: ReactNode;
+  events?: Event[];
+}) => {
+  const [currentEvent, setCurrentEvent] = useState<Event | null>(
+    events[0] ?? null,
+  );
   const pathname = usePathname();
 
+  // Update default event when events load
   React.useEffect(() => {
-    const isNotFound = pathname === "/404" || pathname === "/not-found"; // Adjust if you use a custom not-found route
+    if (events.length > 0 && !currentEvent) {
+      setCurrentEvent(events[0]);
+    }
+  }, [events, currentEvent]);
+
+  React.useEffect(() => {
+    const isNotFound = pathname === "/404" || pathname === "/not-found";
 
     const palette = isNotFound ? notFoundColors : currentEvent?.colorPalette;
 

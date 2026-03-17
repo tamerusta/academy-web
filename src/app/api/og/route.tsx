@@ -2,12 +2,8 @@
 // or app/api/og/route.tsx (for App Router)
 // test for now via http://localhost:3000/api/og?name=Summer%20Music%20Festival&location=Central%20Park%2C%20New%20York&color=%23FF5733&time=13.00
 
-import { ImageResponse } from "@vercel/og";
+import { ImageResponse } from "next/og";
 import { NextRequest } from "next/server";
-
-export const config = {
-  runtime: "edge",
-};
 
 // For App Router
 export async function GET(req: NextRequest) {
