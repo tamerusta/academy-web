@@ -260,10 +260,7 @@ export function BasicInfoForm({
                     try {
                       const formData = new FormData();
                       formData.append("file", file);
-                      formData.append(
-                        "path",
-                        `${currentSlug}/banner.webp`,
-                      );
+                      formData.append("path", `${currentSlug}/banner.webp`);
                       const res = await fetch("/api/admin/upload", {
                         method: "POST",
                         body: formData,

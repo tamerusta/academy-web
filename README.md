@@ -19,17 +19,17 @@ The event management and showcase platform for Developer MultiGroup. Browse upco
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | Next.js 15 (App Router, React 19) |
-| Language | TypeScript |
-| Styling | Tailwind CSS + Shadcn/ui (Radix primitives) |
-| Database | Cloudflare D1 (SQLite) via Drizzle ORM |
-| Asset Storage | Cloudflare R2 |
-| Deployment | Cloudflare Workers (via OpenNextJS) |
-| Forms | React Hook Form + Zod validation |
-| Animation | Framer Motion |
-| Maps | React Leaflet / Pigeon Maps |
+| Layer         | Technology                                  |
+| ------------- | ------------------------------------------- |
+| Framework     | Next.js 15 (App Router, React 19)           |
+| Language      | TypeScript                                  |
+| Styling       | Tailwind CSS + Shadcn/ui (Radix primitives) |
+| Database      | Cloudflare D1 (SQLite) via Drizzle ORM      |
+| Asset Storage | Cloudflare R2                               |
+| Deployment    | Cloudflare Workers (via OpenNextJS)         |
+| Forms         | React Hook Form + Zod validation            |
+| Animation     | Framer Motion                               |
+| Maps          | React Leaflet / Pigeon Maps                 |
 
 ## Project Structure
 
@@ -169,12 +169,12 @@ The dev server runs via Wrangler, simulating the Cloudflare Workers environment 
 
 ### Environment Variables
 
-| Variable | Description |
-|----------|-------------|
-| `CLOUDFLARE_API_TOKEN` | Wrangler CLI auth token (Workers, D1, R2 permissions) |
-| `CLOUDFLARE_ACCOUNT_ID` | Your Cloudflare account ID |
-| `NEXT_PUBLIC_R2_URL` | Public URL for the R2 asset bucket |
-| `ADMIN_SECRET_KEY` | Secret key for admin authentication (32+ chars recommended) |
+| Variable                | Description                                                 |
+| ----------------------- | ----------------------------------------------------------- |
+| `CLOUDFLARE_API_TOKEN`  | Wrangler CLI auth token (Workers, D1, R2 permissions)       |
+| `CLOUDFLARE_ACCOUNT_ID` | Your Cloudflare account ID                                  |
+| `NEXT_PUBLIC_R2_URL`    | Public URL for the R2 asset bucket                          |
+| `ADMIN_SECRET_KEY`      | Secret key for admin authentication (32+ chars recommended) |
 
 For production, `ADMIN_SECRET_KEY` must also be set as a Cloudflare Workers secret:
 
@@ -184,19 +184,19 @@ wrangler secret put ADMIN_SECRET_KEY
 
 ## Available Scripts
 
-| Script | Description |
-|--------|-------------|
-| `npm run dev` | Build with OpenNextJS + start Wrangler dev server |
-| `npm run dev:next` | Standard Next.js dev server (no Cloudflare bindings) |
-| `npm run build` | Next.js production build |
-| `npm run deploy` | Build and deploy to Cloudflare Workers |
-| `npm run db:generate` | Generate Drizzle migration files |
-| `npm run db:migrate:local` | Apply migrations to local D1 |
-| `npm run db:migrate:remote` | Apply migrations to production D1 |
-| `npm run db:seed` | Seed database from scripts |
-| `npm run r2:upload` | Upload assets to R2 |
-| `npm run format` | Format code with Prettier |
-| `npm run lint` | Run ESLint |
+| Script                      | Description                                          |
+| --------------------------- | ---------------------------------------------------- |
+| `npm run dev`               | Build with OpenNextJS + start Wrangler dev server    |
+| `npm run dev:next`          | Standard Next.js dev server (no Cloudflare bindings) |
+| `npm run build`             | Next.js production build                             |
+| `npm run deploy`            | Build and deploy to Cloudflare Workers               |
+| `npm run db:generate`       | Generate Drizzle migration files                     |
+| `npm run db:migrate:local`  | Apply migrations to local D1                         |
+| `npm run db:migrate:remote` | Apply migrations to production D1                    |
+| `npm run db:seed`           | Seed database from scripts                           |
+| `npm run r2:upload`         | Upload assets to R2                                  |
+| `npm run format`            | Format code with Prettier                            |
+| `npm run lint`              | Run ESLint                                           |
 
 ## Admin Panel
 
@@ -206,16 +206,16 @@ The admin panel lives at `/admin` and is never linked from the public site. It p
 
 Events are edited through section-based pages — each section saves independently:
 
-| Section | What it manages |
-|---------|----------------|
+| Section        | What it manages                                                      |
+| -------------- | -------------------------------------------------------------------- |
 | **Basic Info** | Name, descriptions, date, registration link, location, color palette |
-| **Speakers** | Speaker profiles + organizer list with image upload |
-| **Sessions** | Session schedule with room assignment and speaker linking |
-| **Sponsors** | Sponsor tiers and logos with image crop/upload |
-| **Tickets** | Ticket types, pricing, purchase links, and perks |
-| **Metrics** | Hero metrics (max 3) and optional post-event statistics |
-| **Colors** | Per-event HSL color palette with live preview |
-| **Images** | Event gallery images with upload and manual URL entry |
+| **Speakers**   | Speaker profiles + organizer list with image upload                  |
+| **Sessions**   | Session schedule with room assignment and speaker linking            |
+| **Sponsors**   | Sponsor tiers and logos with image crop/upload                       |
+| **Tickets**    | Ticket types, pricing, purchase links, and perks                     |
+| **Metrics**    | Hero metrics (max 3) and optional post-event statistics              |
+| **Colors**     | Per-event HSL color palette with live preview                        |
+| **Images**     | Event gallery images with upload and manual URL entry                |
 
 ### Creating an Event
 
@@ -229,6 +229,7 @@ Events are edited through section-based pages — each section saves independent
 Images are stored in Cloudflare R2 under the `academy-assets` bucket. The upload flow includes client-side cropping (speakers: 400x400 square, sponsors: 500x200 rectangle) and WebP conversion before upload.
 
 R2 path convention:
+
 ```
 {event-slug}/speakers/{slugified-name}.webp
 {event-slug}/sponsors/{sponsor-slug}.webp
@@ -346,33 +347,33 @@ classDiagram
 
 ### Public
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/api/events` | All events with full relations |
-| GET | `/api/events/[slug]` | Single event by slugified name |
-| GET | `/api/announcement` | Active site-wide announcement |
+| Method | Path                 | Description                    |
+| ------ | -------------------- | ------------------------------ |
+| GET    | `/api/events`        | All events with full relations |
+| GET    | `/api/events/[slug]` | Single event by slugified name |
+| GET    | `/api/announcement`  | Active site-wide announcement  |
 
 ### Admin (requires `admin_session` cookie)
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/api/admin/auth` | Login with secret key |
-| GET | `/api/admin/auth` | Validate current session |
-| DELETE | `/api/admin/auth` | Logout (clear cookie) |
-| GET | `/api/admin/events` | All events (admin view) |
-| POST | `/api/admin/events` | Create event |
-| GET | `/api/admin/events/[id]` | Get event by ID (raw DB row) |
-| DELETE | `/api/admin/events/[id]` | Delete event (cascade) |
-| PUT | `/api/admin/events/[id]/basic-info` | Update basic info + location + colors |
-| PUT | `/api/admin/events/[id]/speakers` | Update speakers + organizers |
-| PUT | `/api/admin/events/[id]/sessions` | Update sessions |
-| PUT | `/api/admin/events/[id]/sponsors` | Update sponsors |
-| PUT | `/api/admin/events/[id]/tickets` | Update tickets |
-| PUT | `/api/admin/events/[id]/metrics` | Update metrics |
-| PUT | `/api/admin/events/[id]/colors` | Update color palette |
-| PUT | `/api/admin/events/[id]/images` | Update event images |
-| PUT | `/api/admin/announcement` | Update announcement |
-| POST | `/api/admin/upload` | Upload image to R2 |
+| Method | Path                                | Description                           |
+| ------ | ----------------------------------- | ------------------------------------- |
+| POST   | `/api/admin/auth`                   | Login with secret key                 |
+| GET    | `/api/admin/auth`                   | Validate current session              |
+| DELETE | `/api/admin/auth`                   | Logout (clear cookie)                 |
+| GET    | `/api/admin/events`                 | All events (admin view)               |
+| POST   | `/api/admin/events`                 | Create event                          |
+| GET    | `/api/admin/events/[id]`            | Get event by ID (raw DB row)          |
+| DELETE | `/api/admin/events/[id]`            | Delete event (cascade)                |
+| PUT    | `/api/admin/events/[id]/basic-info` | Update basic info + location + colors |
+| PUT    | `/api/admin/events/[id]/speakers`   | Update speakers + organizers          |
+| PUT    | `/api/admin/events/[id]/sessions`   | Update sessions                       |
+| PUT    | `/api/admin/events/[id]/sponsors`   | Update sponsors                       |
+| PUT    | `/api/admin/events/[id]/tickets`    | Update tickets                        |
+| PUT    | `/api/admin/events/[id]/metrics`    | Update metrics                        |
+| PUT    | `/api/admin/events/[id]/colors`     | Update color palette                  |
+| PUT    | `/api/admin/events/[id]/images`     | Update event images                   |
+| PUT    | `/api/admin/announcement`           | Update announcement                   |
+| POST   | `/api/admin/upload`                 | Upload image to R2                    |
 
 ## Deployment
 
