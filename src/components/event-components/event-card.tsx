@@ -175,66 +175,68 @@ export default function EventCard({
             </div>
 
             {/* Year Selector */}
-            {availableYears.length > 0 && <div className="flex items-center gap-1 mt-2 select-none">
-              {availableYears.map((year) => {
-                const baseName = event.name.replace(/\s+\d{4}$|-\d{4}$/, "");
-                const eventNameForYear = `${baseName} ${year}`;
-                const eventSlugForYear = slugify(eventNameForYear);
-                const isLatestYear =
-                  year ===
-                  Math.max(
-                    ...availableYears.map((y) => parseInt(y)),
-                  ).toString();
-                // Get the event for this year
-                const eventForYear = getEventByBaseNameAndYear(
-                  allEvents,
-                  baseName,
-                  year,
-                );
-                // Fallback to current event if not found (shouldn't happen)
-                const eventData = eventForYear || event;
-                const eventDate = new Date(eventData.date);
-                const now = new Date();
-                const isPast = eventDate < now;
-                const isDisabled = eventData.navigable === false && !isPast;
-                const isSelected = year === selectedYear;
-                return (
-                  <button
-                    key={year}
-                    onClick={() => {
-                      if (isDisabled) return;
-                      if (
-                        eventData.navigable === false &&
-                        isPast &&
-                        eventData.registerLink
-                      ) {
-                        window.open(eventData.registerLink, "_blank");
-                        return;
-                      }
-                      if (isLatestEvent && isLatestYear) {
-                        router.push("/");
-                      } else {
-                        router.push(`/etkinlikler/${eventSlugForYear}`);
-                      }
-                    }}
-                    disabled={isDisabled}
-                    className={`transition-all duration-150 text-base md:text-lg font-semibold pr-2 py-1 rounded-md border-none outline-none focus:outline-none
+            {availableYears.length > 0 && (
+              <div className="flex items-center gap-1 mt-2 select-none">
+                {availableYears.map((year) => {
+                  const baseName = event.name.replace(/\s+\d{4}$|-\d{4}$/, "");
+                  const eventNameForYear = `${baseName} ${year}`;
+                  const eventSlugForYear = slugify(eventNameForYear);
+                  const isLatestYear =
+                    year ===
+                    Math.max(
+                      ...availableYears.map((y) => parseInt(y)),
+                    ).toString();
+                  // Get the event for this year
+                  const eventForYear = getEventByBaseNameAndYear(
+                    allEvents,
+                    baseName,
+                    year,
+                  );
+                  // Fallback to current event if not found (shouldn't happen)
+                  const eventData = eventForYear || event;
+                  const eventDate = new Date(eventData.date);
+                  const now = new Date();
+                  const isPast = eventDate < now;
+                  const isDisabled = eventData.navigable === false && !isPast;
+                  const isSelected = year === selectedYear;
+                  return (
+                    <button
+                      key={year}
+                      onClick={() => {
+                        if (isDisabled) return;
+                        if (
+                          eventData.navigable === false &&
+                          isPast &&
+                          eventData.registerLink
+                        ) {
+                          window.open(eventData.registerLink, "_blank");
+                          return;
+                        }
+                        if (isLatestEvent && isLatestYear) {
+                          router.push("/");
+                        } else {
+                          router.push(`/etkinlikler/${eventSlugForYear}`);
+                        }
+                      }}
+                      disabled={isDisabled}
+                      className={`transition-all duration-150 text-base md:text-lg font-semibold pr-2 py-1 rounded-md border-none outline-none focus:outline-none
                       ${isSelected ? "font-extrabold text-[#4d002f] bg-transparent opacity-100" : "font-semibold text-color-text opacity-40 hover:opacity-80 hover:bg-color-accent/10 cursor-pointer"}
                       ${isDisabled ? "opacity-30 cursor-not-allowed" : ""}
                     `}
-                    style={{
-                      WebkitTextStroke: isSelected
-                        ? "0.3px #4d002f"
-                        : undefined,
-                    }}
-                    tabIndex={isDisabled ? -1 : 0}
-                    type="button"
-                  >
-                    {year}
-                  </button>
-                );
-              })}
-            </div>}
+                      style={{
+                        WebkitTextStroke: isSelected
+                          ? "0.3px #4d002f"
+                          : undefined,
+                      }}
+                      tabIndex={isDisabled ? -1 : 0}
+                      type="button"
+                    >
+                      {year}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
 
             {/* Action Button */}
             <div className="flex flex-col sm:flex-row gap-3">
