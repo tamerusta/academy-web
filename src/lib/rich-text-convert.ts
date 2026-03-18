@@ -35,9 +35,7 @@ function contentfulMarksToTiptap(marks: { type: string }[]): TiptapMark[] {
 }
 
 // Returns an array because HYPERLINK (inline) expands into multiple text nodes
-function contentfulNodeToTiptap(
-  node: Block | Inline | Text,
-): TiptapNode[] {
+function contentfulNodeToTiptap(node: Block | Inline | Text): TiptapNode[] {
   // Text node
   if ("value" in node && node.nodeType === "text") {
     if (!node.value) return [];
@@ -64,9 +62,8 @@ function contentfulNodeToTiptap(
   }
 
   // Block nodes — recurse and flatten child arrays
-  const children = "content" in node
-    ? node.content.flatMap(contentfulNodeToTiptap)
-    : [];
+  const children =
+    "content" in node ? node.content.flatMap(contentfulNodeToTiptap) : [];
 
   switch (node.nodeType) {
     case BLOCKS.PARAGRAPH:
@@ -86,9 +83,7 @@ function contentfulNodeToTiptap(
     case BLOCKS.QUOTE:
       return [{ type: "blockquote", content: children }];
     default:
-      return children.length
-        ? [{ type: "paragraph", content: children }]
-        : [];
+      return children.length ? [{ type: "paragraph", content: children }] : [];
   }
 }
 
@@ -102,9 +97,7 @@ export function contentfulToTiptap(doc: Document): TiptapDoc {
 
 // ── Tiptap → Contentful ──
 
-function tiptapMarksToContentful(
-  marks?: TiptapMark[],
-): { type: string }[] {
+function tiptapMarksToContentful(marks?: TiptapMark[]): { type: string }[] {
   if (!marks) return [];
   return marks
     .filter((m) => m.type !== "link")
@@ -121,9 +114,7 @@ function findLinkMark(marks?: TiptapMark[]): string | null {
   return link?.attrs?.href as string | null;
 }
 
-function tiptapNodeToContentful(
-  node: TiptapNode,
-): (Block | Inline | Text)[] {
+function tiptapNodeToContentful(node: TiptapNode): (Block | Inline | Text)[] {
   if (node.type === "text") {
     const linkHref = findLinkMark(node.marks);
     const text: Text = {

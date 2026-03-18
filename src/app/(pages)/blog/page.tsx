@@ -24,9 +24,7 @@ export default function BlogPage() {
       <div className="pt-[20vh] w-5/6 2xl:w-2/3 mx-auto pb-16">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-color-text">Blog</h1>
-          <p className="mt-3 text-gray-500">
-            Yazılarımız ve paylaşımlarımız
-          </p>
+          <p className="mt-3 text-gray-500">Yazılarımız ve paylaşımlarımız</p>
         </div>
         {posts.length > 0 ? (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
