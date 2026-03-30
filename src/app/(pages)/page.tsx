@@ -15,10 +15,31 @@ export default function HeroPage() {
   const { setCurrentEvent } = useEventColor();
 
   useEffect(() => {
+    // Save scroll position before refresh
+    const handleBeforeUnload = () => {
+      sessionStorage.setItem("scrollPos", window.scrollY.toString());
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
     fetch("/api/events")
       .then((res) => res.json())
-      .then((data: Event[]) => setEvents(data))
+      .then((data: Event[]) => {
+        setEvents(data);
+        // Restore scroll position after data loads
+        const savedPos = sessionStorage.getItem("scrollPos");
+        if (savedPos) {
+          setTimeout(() => {
+            window.scrollTo({
+              top: parseInt(savedPos),
+              behavior: "instant" as ScrollBehavior,
+            });
+            sessionStorage.removeItem("scrollPos");
+          }, 100);
+        }
+      })
       .catch(() => setEvents([]));
+
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, []);
 
   const latestEventDetails = useMemo(
@@ -38,17 +59,24 @@ export default function HeroPage() {
     }
   }, [latestEventDetails, setCurrentEvent]);
 
-  if (!events) return <Loading />;
-
-  if (!latestEventDetails) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
-        <p>Etkinlik bulunamadı.</p>
-      </div>
-    );
-  }
-
   return (
-    <EventPage event={latestEventDetails} previousEvent={secondLatest} hero />
+    <>
+      {!events && <Loading />}
+      {events && (
+        <>
+          {latestEventDetails ? (
+            <EventPage
+              event={latestEventDetails}
+              previousEvent={secondLatest}
+              hero
+            />
+          ) : (
+            <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
+              <p>Etkinlik bulunamadı.</p>
+            </div>
+          )}
+        </>
+      )}
+    </>
   );
 }

@@ -128,17 +128,19 @@ export default function EventCard({
                 .replace(/\s+\d{4}$|-\d{4}$/, "")
                 .toLowerCase()
                 .replace(/ /g, "-");
+              const isCourse = baseName.includes("course");
+              const imageName = isCourse ? "mockup.webp" : "banner.webp";
               const imagePath = hasYearSuffix
-                ? `${R2_BASE}/${baseName}-${Math.max(...availableYears.map((y) => parseInt(y)))}/banner.webp`
-                : `${R2_BASE}/${baseName}/banner.webp`;
+                ? `${R2_BASE}/${baseName}-${Math.max(...availableYears.map((y) => parseInt(y)))}/${imageName}`
+                : `${R2_BASE}/${baseName}/${imageName}`;
               return (
                 <Image
                   src={imagePath}
                   alt={eventTitle}
                   width={480}
                   height={270}
-                  className="rounded-2xl w-full h-auto object-cover shadow-md"
-                  style={{ background: "#f3f0fa" }}
+                  className="rounded-2xl w-full h-auto max-h-[400px] object-contain drop-shadow-2xl hover:scale-[1.02] transition-transform duration-300"
+                  style={{ background: "transparent" }}
                   onError={(e) => {
                     e.currentTarget.style.display = "none";
                   }}
@@ -329,9 +331,11 @@ export default function EventCard({
               .replace(/\s+\d{4}$|-\d{4}$/, "")
               .toLowerCase()
               .replace(/ /g, "-");
+            const isCourse = baseName.includes("course");
+            const imageName = isCourse ? "mockup.webp" : "banner.webp";
             const imagePath = hasYearSuffix
-              ? `${R2_BASE}/${baseName}-${Math.max(...availableYears.map((y) => parseInt(y)))}/banner.webp`
-              : `${R2_BASE}/${baseName}/banner.webp`;
+              ? `${R2_BASE}/${baseName}-${Math.max(...availableYears.map((y) => parseInt(y)))}/${imageName}`
+              : `${R2_BASE}/${baseName}/${imageName}`;
             return (
               <div className="w-full h-full flex items-center justify-center">
                 <Image
@@ -339,8 +343,8 @@ export default function EventCard({
                   alt={eventTitle}
                   width={480}
                   height={270}
-                  className="rounded-2xl w-full h-auto max-h-[400px] object-cover shadow-md"
-                  style={{ background: "#f3f0fa" }}
+                  className="rounded-2xl w-full h-auto max-h-[400px] object-contain drop-shadow-2xl hover:scale-[1.02] transition-transform duration-300"
+                  style={{ background: "transparent" }}
                   onError={(e) => {
                     e.currentTarget.style.display = "none";
                   }}

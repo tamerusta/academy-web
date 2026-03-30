@@ -22,19 +22,19 @@ export default function EventTickets({ tickets }: EventTicketsProps) {
           </div>
           <a
             href={ticket.link}
-            className="block w-full text-center bg-color-background text-color-text py-4 px-4 rounded-xl border-2 border-color-accent hover:border-color-secondary hover:bg-color-secondary hover:text-color-background transition-all duration-300 mb-6 text-xl font-medium"
+            className="block w-full text-center bg-color-secondary text-color-background py-4 px-4 rounded-xl border-2 border-color-accent hover:border-color-secondary hover:bg-color-background hover:text-color-text transition-all duration-300 mb-6 text-xl font-medium"
             target="_blank"
             rel="noreferrer"
           >
-            Destek Olun
+            Yerini Ayırt
           </a>
           <div className="pt-4">
             {ticket.perks.map((perk, i) => (
               <div
                 key={i}
-                className="flex items-center border-t border-color-accent py-4 gap-x-4"
+                className="flex items-start border-t border-color-accent py-4 gap-x-4"
               >
-                <Check size={20} className="text-color-text" />
+                <Check size={20} className="text-color-text shrink-0 mt-0.5" />
                 <span className="text-color-text">{perk}</span>
               </div>
             ))}

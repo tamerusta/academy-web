@@ -16,6 +16,7 @@ export default function PagesLayout({
   const [latestEventLink, setLatestEventLink] = useState(
     "https://togather.lodos.io/communities/multiacademy-94761667282726876508",
   );
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     fetch("/api/events")
@@ -24,12 +25,13 @@ export default function PagesLayout({
         setEvents(data);
         setLatestEventLink(getLatestEventLink(data));
       })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => setIsReady(true));
   }, []);
 
   return (
     <EventColorProvider events={events}>
-      <Navbar eventLink={latestEventLink} />
+      {isReady && <Navbar eventLink={latestEventLink} />}
       {children}
       <Footer />
     </EventColorProvider>

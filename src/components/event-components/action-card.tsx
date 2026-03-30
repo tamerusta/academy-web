@@ -31,11 +31,11 @@ const ActionCard: React.FC<ActionCardProps> = ({
         <>
           <div className="w-full lg:w-1/2 text-center lg:text-left space-y-4">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 lg:pt-0">
-              {name} Yaklaşıyor!
+              {name}'u Keşfet!
             </h2>
-            <div className="space-y-2">
+            <div className="space-y-4">
               {description?.split("\n").map((line, i) => (
-                <p key={i} className="text-gray-700 text-base lg:text-lg">
+                <p key={i} className="text-gray-700 text-base lg:text-lg leading-relaxed">
                   {line}
                 </p>
               ))}
@@ -73,9 +73,9 @@ const ActionCard: React.FC<ActionCardProps> = ({
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
               {title}
             </h2>
-            <div className="space-y-2">
+            <div className="space-y-4">
               {description?.split("\n").map((line, i) => (
-                <p key={i} className="text-gray-700 text-base lg:text-lg">
+                <p key={i} className="text-gray-700 text-base lg:text-lg leading-relaxed">
                   {line}
                 </p>
               ))}

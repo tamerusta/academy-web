@@ -9,7 +9,7 @@ export default function IconDivider() {
           <div className="p-4 rounded-xl border border-color-accent shadow-xl bg-white">
             <Microphone size={24} weight="fill" className="text-color-text" />
           </div>
-          <h3 className="text-lg font-bold">Alanında Uzman Konuşmacılar</h3>
+          <h3 className="text-lg font-bold">Alanında Uzman Eğitmenler</h3>
         </div>
 
         <div className="flex items-center gap-4">
@@ -17,7 +17,7 @@ export default function IconDivider() {
             <Chats size={24} weight="fill" className="text-color-text" />
           </div>
           <h3 className="text-lg font-bold">
-            Etkileşim Odaklı Network Alanları
+            Kendi Hızında Öğrenme
           </h3>
         </div>
 
@@ -32,7 +32,7 @@ export default function IconDivider() {
             />
           </div>
           <h3 className="text-lg font-bold">
-            Sektörün Önde Gelen Şirketleriyle Birebir
+            Sektör Odaklı İçerikler
           </h3>
         </div>
       </div>
