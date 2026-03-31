@@ -4,25 +4,25 @@ import { imageUrl } from "@/lib/image-url";
 export default function TextDivider() {
   const contentItems = [
     {
-      title: "Network'ünü genişlet",
-      text: "Network alanımıza katıl ve networkünü genişletmek için ilk adımı at",
+      title: "Kendi Hızında Öğren",
+      text: "Kayıtlı ders içeriklerine istediğin zaman, istediğin yerden eriş ve öğrenme sürecini kendin yönet",
     },
     {
-      title: "İş Ve Staj İmkanları Yakala",
-      text: "Etkinlik alanımızı gez ve potansiyel iş ve staj imkanlarından haberdar ol",
+      title: "Sertifikanı Kazan",
+      text: "Eğitimi tamamla ve iş başvurularında öne çıkmanı sağlayacak sertifikana hemen sahip ol",
     },
     {
-      title: "Sektörü Tanı",
-      text: "Katılım gösteren şirketlerle tanış ve geleceğin ihtiyaçlarını ilk ağızdan dinle",
+      title: "Uzman Eğitmenlerden Öğren",
+      text: "Sektörde aktif olarak çalışan uzmanlardan en güncel bilgileri ve gerçek dünya deneyimlerini dinle",
     },
     {
-      title: "Harika Teknik Oturumlara Katıl",
-      text: "Teknik oturumlarımıza katı ve teknik ekiplerin yenilikçi yaklaşımlarını, nasıl düşündüklerini dinlel",
+      title: "Canlı Mentorluk Seanslarına Katıl",
+      text: "Eğitmenlerle birebir iletişim kur ve anlamadığın konuları çöz",
     },
   ];
 
   return (
-    <section className="w-5/6 2xl:w-2/3 mx-auto py-12">
+    <section className="w-5/6 2xl:w-2/3 mx-auto pt-12 pb-12">
       <div className="border-t border-b border-color-accent py-12">
         {/* Desktop Layout */}
         <div className="hidden lg:flex justify-between items-center">

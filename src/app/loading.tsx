@@ -4,7 +4,7 @@ import { imageUrl } from "@/lib/image-url";
 
 export default function Loading() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-black">
+    <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black">
       <img
         src={imageUrl("/images/logo/logo-small-white.webp")}
         alt="Logo"

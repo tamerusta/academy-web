@@ -44,7 +44,7 @@ const Navbar = ({ eventLink }: { eventLink: string }) => {
   return (
     <>
       <AnnouncementBanner />
-      <header className="top-0 absolute w-5/6 mt-[34px] rounded-lg z-50 px-4 sm:px-4 bg-color-primary py-2 left-1/2 -translate-x-1/2">
+      <header className="top-0 absolute w-5/6 mt-[34px] rounded-lg z-50 px-4 sm:px-4 bg-color-primary py-2 left-1/2 -translate-x-1/2 animate-in fade-in duration-500">
         <div className="relative w-full h-20 flex items-center justify-center">
           <div className="absolute left-0 pl-4 flex items-center">
             <a href="/">
@@ -113,11 +113,10 @@ const Navbar = ({ eventLink }: { eventLink: string }) => {
       </header>
 
       <div
-        className={`fixed inset-0 bg-white z-[999] flex flex-col items-center justify-center transition-all duration-300 ${
-          isExpanded
-            ? "translate-y-0 opacity-100"
-            : "-translate-y-full opacity-0"
-        }`}
+        className={`fixed inset-0 bg-white z-[999] flex flex-col items-center justify-center transition-all duration-300 ${isExpanded
+          ? "translate-y-0 opacity-100"
+          : "-translate-y-full opacity-0"
+          }`}
       >
         <button
           className="absolute top-12 right-16 text-black text-3xl"

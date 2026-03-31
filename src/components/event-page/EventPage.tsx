@@ -12,8 +12,8 @@ import EventTickets from "../event-components/event-tickets";
 import HighlightHeading from "@/components/common/heading";
 import { MovingBorderButton } from "../ui/moving-border";
 import ActionCard from "../event-components/action-card";
-import IconDivider from "../dividers/icon-divider";
 import TextDivider from "../dividers/text-divider";
+import IconDivider from "../dividers/icon-divider";
 import { slugify } from "@/lib/slugify";
 import { eventImageUrl, organizerImageUrl, R2_BASE } from "@/lib/image-url";
 
@@ -76,17 +76,18 @@ export default function EventPage({
       <div className="flex flex-col items-center justify-between bg-color-background w-5/6 mx-auto py-24 min-h-screen">
         <div className="w-full">
           <motion.div
-            className="select-none text-color-text text-4xl sm:text-6xl font-extrabold px-2 pt-24 md:pt-32 max-w-lg sm:max-w-2xl leading-snug sm:leading-[64px] text-center lg:text-left"
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4 }}
+            className="flex flex-col items-center justify-center select-none text-color-text px-2 pt-24 md:pt-32 w-full mx-auto text-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
           >
-            {event.name}
-            <div className="text-xl font-normal pt-8">
-              {event.heroDescription}
+            <h1 className="text-4xl sm:text-6xl font-extrabold max-w-4xl leading-snug sm:leading-[64px]">
+              {event.name}
+            </h1>
+            <div className="text-xl font-normal pt-8 max-w-3xl flex flex-col items-center text-center">
+              <p className="text-center">{event.heroDescription}</p>
               <br />
-              <br />
-              <div className="flex justify-center items-center lg:justify-start lg:items-start text-color-text w-full gap-x-6">
+              <div className="flex justify-center items-center text-color-text w-full gap-x-6">
                 <span>{event.location.name}</span>
               </div>
             </div>
@@ -112,20 +113,20 @@ export default function EventPage({
         </div>
 
         <motion.div
-          className="select-none w-full flex flex-col lg:flex-row items-start lg:items-center space-y-4 lg:space-y-0 lg:space-x-8 mt-8"
+          className="select-none w-full flex flex-col lg:flex-row items-center justify-between space-y-8 lg:space-y-0 mt-12 px-2"
           variants={staggerChildren}
           initial="initial"
           animate="animate"
         >
           <motion.div
-            className="select-none text-color-text text-xl sm:text-4xl py-4 md:py-1 rounded-lg text-center lg:text-left w-full font-extrabold"
+            className="select-none text-color-text text-xl sm:text-4xl py-4 md:py-1 rounded-lg text-center lg:text-left font-extrabold"
             variants={fadeInUp}
           >
-            <div className="flex justify-center items-center lg:justify-start lg:items-start text-color-text w-full gap-x-6">
+            <div className="flex justify-center items-center text-color-text w-full gap-x-6">
               {event.initialMetrics.map((metric, index) => (
                 <div
                   key={`metric-${index}`}
-                  className={`flex flex-col items-left justify-left text-center md:text-left ${index < event.initialMetrics.length - 1 ? "pr-6 border-r-2 border-color-accent" : ""}`}
+                  className={`flex flex-col items-center justify-center text-center ${index < event.initialMetrics.length - 1 ? "pr-6 border-r-2 border-color-accent" : ""}`}
                 >
                   <span className="text-2xl sm:text-4xl font-bold">
                     {metric.value}+
@@ -139,7 +140,7 @@ export default function EventPage({
           </motion.div>
 
           <motion.div
-            className="flex flex-row justify-center items-center lg:justify-end mb-10 w-full"
+            className="flex flex-row justify-center items-center w-auto"
             variants={fadeInUp}
           >
             <AnimatedTooltip
@@ -205,14 +206,12 @@ export default function EventPage({
           <>
             <span id="biletler"></span>
             <HighlightHeading
-              beforeHighlight="Bize"
-              highlightText="Destek Olmak"
-              afterHighlight="İster misiniz?"
+              beforeHighlight="Biletinizi"
+              highlightText="Alın,"
+              afterHighlight="Online Katılın!"
             >
-              Her zaman hayalimizdeki ilham verici etkinlikler için sponsor
-              bulamıyoruz, ama şimdiye dek etkinliklerimize katılmış ve memnun
-              kalmış 500'den fazla destekçimiz sayesinde hayalimize biraz daha
-              yakınız.
+              Nerede olursanız olun, sektör profesyonellerinden öğrenme fırsatını
+              kaçırmayın. Biletinizi alın, etkinliği canlı olarak takip edin.
             </HighlightHeading>
             <EventTickets tickets={event.tickets} />
           </>
